@@ -79,6 +79,4 @@ streamlit run app.py
 **License & Credits:**
 - Use or redistribute under your chosen license. Acknowledge the original SMS Spam Collection dataset when publishing results.
 
-**Need changes?**
-- If you'd like a shorter or more detailed section (e.g., expanded model metrics, hyperparameter examples, CI instructions), tell me which parts to extend.
 
