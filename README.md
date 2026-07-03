@@ -1,82 +1,195 @@
 # Spam SMS Detection
 
-**Overview:**
-- **Project:**: A lightweight SMS spam detector that uses TF-IDF features and classic machine learning to classify SMS messages as spam or ham (legitimate). The project includes a Streamlit UI for live testing and utilities to train and save models.
+A machine learning web application that detects spam SMS messages using text preprocessing, TF-IDF vectorization, and classical machine learning models.
 
-**What Is Used:**
-- **Language**: Python 3.8+
-- **Core libraries**: pandas, numpy, scikit-learn, joblib
-- **Web UI**: Streamlit (used by `app.py`)
-- **Modeling**: `TfidfVectorizer`, `MultinomialNB`, `LogisticRegression` (in `train_model.py`)
-- **Utilities**: `re`, `string`, `datetime` (for preprocessing and reporting)
+The app is built with Streamlit and provides an interactive interface for testing SMS messages, viewing confidence scores, evaluating risk, and downloading prediction reports.
 
-**Dataset:**
-- The project expects the SMS Spam Collection dataset CSV at [data/spam.csv](data/spam.csv). The training script loads this file (latin-1 safe read) and uses columns `v1` and `v2` which are renamed to `label` and `message`.
+---
 
-**Folder Structure (important files):**
-- [app.py](app.py): Streamlit app for demo and live prediction.
-- [train_model.py](train_model.py): Training pipeline (cleaning, TF-IDF, training, evaluation, saving model).
-- [requirements.txt](requirements.txt): Minimal Python dependencies.
-- [data/spam.csv](data/spam.csv): Dataset (not included by default).
-- models/: Saved `spam_model.pkl` and `vectorizer.pkl` after training.
-- screenshots/: Example UI screenshots.
+## Live Demo
 
-**Installation:**
-1. Create a virtual environment (recommended):
+Try the app live here:
+
+[Spam SMS Detection App](https://codsoft-spam-sms-detector.streamlit.app/)
+
+---
+
+## Project Overview
+
+This project classifies SMS messages into two categories:
+
+- **Spam**: Unwanted or malicious messages
+- **Ham / Legitimate**: Normal, safe messages
+
+The pipeline includes:
+
+1. Text cleaning and preprocessing
+2. TF-IDF feature extraction
+3. Machine learning classification
+4. Streamlit UI for prediction and report generation
+
+---
+
+## Features
+
+- Predicts SMS messages as **Spam** or **Ham / Legitimate**
+- Displays spam and ham confidence scores
+- Computes a risk level and safety suggestion
+- Detects suspicious keywords and links
+- Shows message statistics (word count, character count)
+- Includes example test messages for quick evaluation
+- Saves prediction history during the session
+- Provides downloadable prediction reports
+- Clean and responsive Streamlit interface
+
+---
+
+## Technologies Used
+
+- Python
+- pandas
+- NumPy
+- scikit-learn
+- joblib
+- Streamlit
+- TF-IDF feature extraction
+- Multinomial Naive Bayes
+- Logistic Regression
+
+---
+
+## Dataset
+
+The project uses the **SMS Spam Collection Dataset**.
+
+Each SMS entry is labeled as:
+
+- `ham`: Legitimate message
+- `spam`: Spam message
+
+The dataset file should be located at:
+
+```text
+data/spam.csv
+```
+
+---
+
+## Installation
+
+1. Create and activate a virtual environment:
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate    # macOS / Linux
-.venv\Scripts\activate      # Windows (PowerShell)
+.venv\Scripts\activate    # Windows PowerShell
 ```
 
-2. Install dependencies:
+2. Install the required libraries:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Ensure the dataset is present at `data/spam.csv`.
+3. Ensure the dataset exists at `data/spam.csv`.
 
-**Train the Model:**
-- The training script will clean text, vectorize with TF-IDF (max_features=3000), train Naive Bayes and Logistic Regression, print metrics, and save the model and vectorizer to `models/`.
+---
+
+## Train the Model
+
+To train the model and save the artifacts, run:
 
 ```bash
 python train_model.py
 ```
 
-After running, check the `models/` directory for `spam_model.pkl` and `vectorizer.pkl`.
+This script will:
 
-**Run the App (Demo):**
-- Start the Streamlit app to use the interactive UI:
+- Load the dataset from `data/spam.csv`
+- Clean and preprocess SMS text
+- Convert text to TF-IDF vectors
+- Train Naive Bayes and Logistic Regression models
+- Display model evaluation metrics
+- Save the final model and vectorizer to `models/`
+
+---
+
+## Run the App
+
+Start the Streamlit application:
 
 ```bash
 streamlit run app.py
 ```
 
-- In the UI you can:
-	- Enter or paste an SMS message to analyze.
-	- Use quick examples (Spam, Ham, Offer).
-	- See spam/ham confidence, detected suspicious words, risk level, and safety suggestions.
-	- Download a prediction report.
+Use the web interface to:
 
-**Implementation Notes:**
-- Text cleaning: `clean_text()` lowercases, removes URLs, numbers, and punctuation.
-- Spam keywords: `count_spam_keywords()` checks for common spam terms; `contains_link()` detects link-like patterns.
-- Risk & suggestions: The app computes a simple risk level from predicted spam confidence and provides human-readable safety suggestions.
-- Model loading: `app.py` expects `models/spam_model.pkl` and `models/vectorizer.pkl` to exist.
+- Enter an SMS message
+- Analyze the message
+- View prediction results, confidence scores, and risk level
+- Download a prediction report
 
-**Reproducibility & Tips:**
-- If using a custom dataset, ensure it follows the same two-column convention (label, message) or adapt `train_model.py` accordingly.
-- To retrain with different hyperparameters, modify `train_model.py` (e.g., change `TfidfVectorizer` settings or classifier parameters).
+---
 
-**Security & Privacy:**
-- Do not upload or expose real private messages publicly. This project is intended for educational/demo purposes.
+## Project Structure
 
-**Screenshots:**
-- See the `screenshots/` folder for UI examples.
+```text
+Spam_SMS_Detection/
+├── app.py
+├── train_model.py
+├── requirements.txt
+├── README.md
+├── data/
+│   └── spam.csv
+├── models/
+│   ├── spam_model.pkl
+│   └── vectorizer.pkl
+├── screenshots/
+│   ├── home.png
+│   ├── spam_result.png
+│   └── ham_result.png
+└── .gitignore
+```
 
-**License & Credits:**
-- Use or redistribute under your chosen license. Acknowledge the original SMS Spam Collection dataset when publishing results.
+---
 
+## Model Performance
 
+| Model | Accuracy |
+|---|---:|
+| Naive Bayes | 97.04% |
+| Logistic Regression | 96.41% |
+
+The training script saved the Naive Bayes model as the final prediction model.
+
+---
+
+## Screenshots
+
+### Home Page
+![Home Page](screenshots/home.png)
+
+### Spam Prediction Result
+![Spam Result](screenshots/spam_result.png)
+
+### Ham Prediction Result
+![Ham Result](screenshots/ham_result.png)
+
+---
+
+## Notes
+
+- `app.py` requires `models/spam_model.pkl` and `models/vectorizer.pkl` to run.
+- The dataset should contain `v1` and `v2` columns. The training script renames them to `label` and `message`.
+- This project is ideal for learning text classification and deploying a simple Streamlit app.
+
+---
+
+## Author
+
+**Rittik Basak**
+
+---
+
+## License
+
+This project is created for educational and internship purposes.
